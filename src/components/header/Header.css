@@ -1,0 +1,278 @@
+.hero-navbar-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.hero-navbar-glow {
+    position: absolute;
+    border-radius: 40px;
+    background: radial-gradient(circle,
+            rgba(21, 57, 88, 0.665) 0%,
+            rgba(45, 146, 234, 0.504) 12%,
+            transparent 100%);
+    top: 0;
+    z-index: 0;
+    filter: blur(35px);
+}
+
+.hero-navbar {
+    position: relative;
+    z-index: 1;
+    width: 60vw;
+    height: 4vh;
+    background: linear-gradient(90deg, #000f1bc3, #000f1bc3, #000f1bc3);
+    border: 1px solid rgba(21, 57, 88, 0.267);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px;
+    border-radius: 40px;
+    margin: 0 17vw;
+}
+
+.hero-navbar::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -30px;
+    right: -30px;
+    bottom: -80px;
+    background: radial-gradient(circle,
+            rgba(21, 57, 88, 0.665) 0%,
+            rgba(0, 107, 200, 0.288) 12%,
+            transparent 100%);
+    z-index: -1;
+    border-radius: 40px;
+    filter: blur(25px);
+}
+
+.hero-navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.hero-img-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #00f2ff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.hero-portfolio-name {
+    font-size: 1.24rem;
+    font-weight: bold;
+    color: white;
+}
+
+.hero-navbar-links {
+    display: flex;
+    justify-content: right;
+    list-style: none;
+    gap: 24px;
+    margin-right: 0;
+}
+
+.hero-navbar-links li {
+    font-size: 0.85rem;
+    color: #ffffff;
+    padding: 5px 0px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.hero-navbar-links li:hover {
+    color: #00f2ff;
+    text-shadow: 5px 0px 10px #050505;
+}
+
+/* Mobile Menu Button */
+.mobile-menu-button {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.85rem;
+}
+
+.dropdown-icon {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #00f2ff;
+    transition: transform 0.3s ease;
+    margin-left: 4px;
+}
+
+.dropdown-icon.open {
+    transform: rotate(180deg);
+}
+
+/* Remove the old span styles since we're not using them anymore */
+.dropdown-icon span {
+    display: none;
+}
+
+/* Mobile Menu Dropdown */
+.mobile-menu-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: linear-gradient(90deg, #000f1bc3, #000f1bc3);
+    border: 1px solid rgba(21, 57, 88, 0.267);
+    border-radius: 20px;
+    padding: 10px;
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.mobile-menu-dropdown.open {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mobile-menu-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu-dropdown li {
+    color: white;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.mobile-menu-dropdown li:hover {
+    color: #00f2ff;
+}
+
+.mobile-menu-dropdown .hero-navbar-reachme {
+    margin-top: 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(21, 57, 88, 0.267);
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 1440px) {
+    .hero-navbar {
+        width: 70vw;
+        margin: 0 15vw;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero-navbar {
+        width: 70vw;
+        margin: 0 10vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-navbar {
+        width: 70vw;
+        margin: 0 5vw;
+    }
+
+    .desktop-menu {
+        display: none;
+    }
+
+    .mobile-menu-button {
+        display: flex;
+    }
+
+    .mobile-menu-dropdown {
+        display: block;
+    }
+}
+
+@media (max-width: 425px) {
+    .hero-navbar {
+        width: 75vw;
+        margin: 0 2.5vw;
+        padding: 10px 16px;
+    }
+
+    .hero-portfolio-name {
+        font-size: 1rem;
+    }
+
+    .hero-img-circle {
+        width: 28px;
+        height: 28px;
+    }
+}
+
+@media (max-width: 375px) {
+    .hero-navbar {
+        width: 70vw;
+        margin: 0 1vw;
+        padding: 10px 12px;
+    }
+
+    .hero-portfolio-name {
+        font-size: 0.9rem;
+    }
+
+    .hero-img-circle {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+.hero-navbar-reachme {
+    color: black;
+    border-radius: 40px;
+    padding: 5px 18px !important;
+    border: #263435 1px solid;
+    box-shadow: 0 0 4px #00f2ffb5;
+    font-weight: 600;
+    transition: background 0.5s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-navbar-reachme:hover {
+    background: linear-gradient(90deg, #001a1f, #00616964);
+    animation: shake 0.5s ease-in-out;
+}

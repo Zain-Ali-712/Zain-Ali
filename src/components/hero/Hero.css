@@ -1,0 +1,368 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+.hero-gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #000008ed;
+}
+
+.hero-content {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  perspective: 1200px;
+}
+
+.hero-center-block {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: fit-content;
+  margin: 140px auto auto;
+  filter: brightness(1.2);
+}
+
+.hero-text-main-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100vw);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes dropIn {
+  from {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 2;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.hero-text-main {
+  font-family: 'Oswald', 'Arial Black', Arial, sans-serif;
+  font-size: 10vw;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  background: linear-gradient(120deg, #fff 70%, #bcbcbc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow:
+    0 4px 8px rgba(110, 110, 110, 0.289),
+    0 12px 50px rgba(0, 0, 0, 0.275);
+  position: relative;
+  z-index: 2;
+  transform: none;
+  animation: slideInLeft 1s ease-out forwards;
+  opacity: 0;
+}
+
+.hero-text-mirror {
+  font-family: 'Oswald', 'Arial Black', Arial, sans-serif;
+  font-size: 10vw;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  position: absolute;
+  top: 80%;
+  left: 0;
+  z-index: 1;
+  opacity: 0;
+  transform: scaleY(-0.6) translateZ(0);
+  pointer-events: none;
+  filter: blur(1.5px) brightness(0.5);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 80%, rgba(255, 255, 255, 0) 100%);
+  mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 80%, rgba(255, 255, 255, 0) 100%);
+  animation: fadeIn 1s ease-out 2s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-side-stack {
+  display: flex;
+  height: 10vw;
+}
+
+.hero-text-web {
+  font-family: 'Oswald', 'Arial Black', Arial, sans-serif;
+  font-size: 5vw;
+  font-weight: 700;
+  color: #fff;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  background: linear-gradient(120deg, #fff 60%, #bcbcbc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow:
+    0 2px 8px rgba(78, 78, 78, 0.667),
+    0 8px 24px rgba(0, 0, 0, 0.275);
+  filter: none;
+  margin: 15px auto auto;
+  align-self: flex-start;
+  display: flex;
+  align-items: flex-start;
+  animation: dropIn 1s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+.hero-text-design {
+  font-family: 'Oswald', 'Arial Black', Arial, sans-serif;
+  font-size: 3.8vw;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(120deg, #fff 60%, #bcbcbc 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  text-shadow:
+    0 2px 8px rgba(78, 78, 78, 0.667),
+    0 8px 24px rgba(0, 0, 0, 0.275);
+  filter: none;
+  position: absolute;
+  left: 63%;
+  top: 92%;
+  width: 100%;
+  margin: 0;
+  align-self: flex-end;
+  white-space: nowrap;
+  animation: slideInRight 1s ease-out 1s forwards;
+  opacity: 0;
+}
+
+.hero-text-sub {
+  position: absolute;
+  left: 64%;
+  bottom: -54%;
+  color: #00f2ffc6;
+  font-size: 0.9vw;
+  letter-spacing: 0.07rem;
+  background-clip: text;
+  text-fill-color: transparent;
+  width: 100%;
+  margin: 0;
+  white-space: nowrap;
+  animation: slideInRight 1s ease-out 1s forwards;
+  text-shadow:
+    0 0 10px rgba(0, 242, 255, 0.5),
+    0 0 20px rgba(0, 242, 255, 0.3),
+    0 0 30px rgba(0, 242, 255, 0.2);
+  opacity: 0;
+}
+
+.hero-signature-overlay {
+  position: absolute;
+  right: 85%;
+  top: 70%;
+  width: 30%;
+  min-width: 120px;
+  max-width: 320px;
+  transform: rotate(-15deg);
+  pointer-events: none;
+  z-index: 3;
+  display: block;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 2s forwards;
+}
+
+.hero-signature-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0) invert(1) sepia(100%) saturate(10000%) hue-rotate(0deg) brightness(0.7) drop-shadow(0px 0px 0px #dfdf1ad3) drop-shadow(0px 0px 0px #dfdf1ad3);
+}
+
+/* Responsive Design */
+@media (max-width: 1440px) {
+
+  .hero-text-main,
+  .hero-text-mirror {
+    font-size: 9vw;
+  }
+
+  .hero-text-web {
+    font-size: 4.5vw;
+  }
+
+  .hero-text-design {
+    font-size: 3.4vw;
+    position: absolute;
+    top: 84%;
+  }
+
+  .hero-text-sub {
+    font-size: 0.8vw;
+    position: absolute;
+    bottom: -39%;
+  }
+
+  .hero-signature-overlay {
+    width: 25%;
+    min-width: 100px;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  .hero-text-main,
+  .hero-text-mirror {
+    font-size: 11vw;
+  }
+
+  .hero-text-web {
+    font-size: 5.5vw;
+  }
+
+  .hero-text-design {
+    font-size: 4.2vw;
+    position: absolute;
+    top: 92%;
+  }
+
+  .hero-text-sub {
+    font-size: 1vw;
+    position: absolute;
+    bottom: -56%;
+    left: 63.4%;
+  }
+
+  .hero-signature-overlay {
+    width: 22%;
+    min-width: 90px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .hero-text-main,
+  .hero-text-mirror {
+    font-size: 13vw;
+  }
+
+  .hero-text-web {
+    font-size: 6.5vw;
+  }
+
+  .hero-text-design {
+    font-size: 5vw;
+  }
+
+  .hero-text-sub {
+    font-size: 1.2vw;
+  }
+
+  .hero-signature-overlay {
+    width: 20%;
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 425px) {
+
+  .hero-text-main,
+  .hero-text-mirror {
+    font-size: 16vw;
+  }
+
+  .hero-text-web {
+    font-size: 8vw;
+    position: absolute;
+    top: -10%;
+  }
+
+  .hero-text-design {
+    font-size: 6vw;
+    position: absolute;
+    left: 80%;
+  }
+
+  .hero-text-sub {
+    font-size: 1.3vw;
+    position: absolute;
+    left: 80%;
+  }
+
+  .hero-signature-overlay {
+    width: 18%;
+    min-width: 70px;
+  }
+}
+
+@media (max-width: 375px) {
+
+  .hero-text-main,
+  .hero-text-mirror {
+    font-size: 18vw;
+  }
+
+  .hero-text-web {
+    font-size: 9vw;
+  }
+
+  .hero-text-design {
+    font-size: 7vw;
+  }
+
+  .hero-text-sub {
+    font-size: 1.54vw;
+  }
+
+  .hero-signature-overlay {
+    width: 16%;
+    min-width: 60px;
+  }
+}

@@ -1,0 +1,9 @@
+.app {
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #000008ed;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
