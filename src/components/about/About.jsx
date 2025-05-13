@@ -2,7 +2,6 @@ import React from 'react';
 import './About.css';
 import { FaLinkedin, FaGithub, FaTwitter, FaInstagram } from 'react-icons/fa';
 import { SiThreads } from 'react-icons/si';
-import ZainAli from '/Zain.jpg';
 import MeshBackground from '../hero/MeshBackground';
 import TopGlowAbout from './TopGlowAbout';
 
@@ -15,7 +14,7 @@ const About = () => {
                 {/* Image Container */}
                 <div className="about-image-container">
                     <img
-                        src={ZainAli}
+                        src='/Zain.jpg'
                         alt="Zain Ali"
                         className="about-image"
                     />

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Header.css";
-import zainImage from "/Z.png";
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,7 +14,7 @@ const Header = () => {
             <div className="hero-navbar">
                 <div className="hero-navbar-left">
                     <div className="hero-img-circle">
-                        <img src={zainImage} alt="Zain" className="hero-profile-img" />
+                        <img src='/Z.png' alt="Zain" className="hero-profile-img" />
                     </div>
                     <span className="hero-portfolio-name">ZainDev</span>
                 </div>
