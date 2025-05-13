@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Header.css";
-import zainImage from "../../../public/Z.png";
+import zainImage from "/Z.png";
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
