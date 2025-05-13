@@ -24,7 +24,7 @@ const About = () => {
                 {/* Text Container */}
                 <div className="about-text-container">
                     <h1 className="about-name">Zain Ali</h1>
-                    <h2 className="about-title">Full Stack Developer</h2>
+                    <h2 className="about-title">Full Stack Developer hu</h2>
                     <p className="about-bio">
                         A passionate full-stack developer with expertise in creating modern,
                         responsive web applications. Specializing in React, Node.js, and
