@@ -1,7 +1,7 @@
 .skills-section {
     width: 100%;
     min-height: 100vh;
-    background: #11111173;
+    background: #2828283f;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,7 +45,7 @@
 .skill-icon {
     width: 90px;
     height: 90px;
-    background: #1f1f1f57;
+    background: #2e2e2e5d;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -172,22 +172,22 @@
 
 @media (max-width: 425px) {
     .skills-row {
-        max-width: 60vw;
+        max-width: 80vw;
         padding: 0 3vw;
         gap: 0.5rem 1vw;
     }
 
     .skill-item {
         flex: 1 0 48%;
-        min-width: 70px;
-        max-width: 100px;
+        min-width: 90px;
+        max-width: 120px;
         margin-bottom: 0.2rem;
     }
 
     .skill-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 1.4rem;
+        width: 65px;
+        height: 65px;
+        font-size: 2rem;
         padding: 2px;
     }
 
@@ -196,7 +196,7 @@
     }
 
     .skills-heading {
-        font-size: 1.4rem;
-        margin: 2.5rem 0;
+        font-size: 2.2rem;
+        margin: 3.5rem 0;
     }
 }
