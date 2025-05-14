@@ -1,13 +1,15 @@
 import React from 'react';
 import Hero from './components/hero/Hero';
-import AboutSkillsWrapper from './components/about/AboutSkillsWrapper';
 import './App.css';
+import About from './components/about/About';
+import Skills from './components/skills/Skills';
 
 function App() {
   return (
     <div className="app">
       <Hero />
-      <AboutSkillsWrapper />
+      <About />
+      <Skills />
     </div>
   );
 }
