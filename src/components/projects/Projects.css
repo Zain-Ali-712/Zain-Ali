@@ -1,0 +1,215 @@
+.projects-section {
+    width: 100%;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 3rem 0 2rem 0;
+}
+
+.projects-heading {
+    font-size: 10rem;
+    font-weight: 900;
+    color: #fff;
+    text-align: center;
+    margin: 1.4rem auto 2.2rem auto;
+    letter-spacing: 0.04em;
+    font-family: 'Arsenal', 'Montserrat', Arial, sans-serif;
+    position: relative;
+    z-index: 2;
+}
+
+.center-shadow {
+    text-shadow: 0 6px 32px #000a, 0 1px 2px #0006, 0 0 16px #232323;
+}
+
+.projects-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.project-card {
+    width: 80vw;
+    max-width: 950px;
+    min-height: 200px;
+    background: #232323;
+    border-radius: 18px;
+    box-shadow: 0px 4px 32px 0 rgba(90, 90, 90, 0.411), 0 0.5px 2px 0 #0006;
+    margin: 0 auto;
+    opacity: 0.97;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 2.2rem 1.5rem 2.2rem;
+    gap: 1.2rem;
+    position: relative;
+    transition: box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1;
+}
+
+.project-card:hover {
+    box-shadow:
+        0 0 0 0 #000a,
+        0 0.5px 2px 0 #0006,
+        0 0 16px 4px rgba(0, 120, 255, 0.10),
+        0 0 32px 8px rgba(0, 120, 255, 0.07),
+        0 0 64px 16px rgba(0, 120, 255, 0.05);
+}
+
+.project-card-left {
+    flex: 1.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+}
+
+.project-image-placeholder {
+    width: 420px;
+    height: 160px;
+    background: #181818;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px #0007;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.project-image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.project-card-right {
+    flex: 1.3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.project-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 0.1rem;
+    font-family: 'Arsenal', 'Montserrat', Arial, sans-serif;
+}
+
+.project-desc {
+    color: #e0e0e0;
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+    line-height: 1.5;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.7rem;
+    margin-bottom: 0.3rem;
+}
+
+.project-tag {
+    background: #f3f3f3;
+    color: #232323;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 0.4rem 1.1rem;
+    box-shadow: 0 2px 8px #0001;
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.project-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.1rem;
+}
+
+.project-link {
+    color: #bdbdbd;
+    font-size: 0.98rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: color 0.22s, transform 0.22s;
+    will-change: color, transform;
+}
+
+.project-link i {
+    font-size: 1.1em;
+}
+
+.project-link:hover {
+    color: #2196f3;
+    transform: scale(1.09);
+}
+
+.project-link:last-child:hover {
+    color: #ffe066;
+}
+
+@media (max-width: 1100px) {
+    .project-image-placeholder {
+        width: 260px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 900px) {
+    .project-card {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.2rem 0.5rem;
+        gap: 1.2rem;
+    }
+
+    .project-image-placeholder {
+        width: 90vw;
+        max-width: 350px;
+        height: 100px;
+    }
+
+    .project-card-right {
+        align-items: center;
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .projects-heading {
+        font-size: 1.5rem;
+    }
+
+    .project-card {
+        min-height: 180px;
+        padding: 0.7rem 0.2rem;
+    }
+
+    .project-title {
+        font-size: 1.2rem;
+    }
+
+    .project-desc {
+        font-size: 0.9rem;
+    }
+
+    .project-tag {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem;
+    }
+}

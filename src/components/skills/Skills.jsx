@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Skills.css';
-
 // Import skill icons (SVGs or PNGs in public/skills/ or use react-icons as fallback)
 import { FaReact, FaNodeJs, FaCss3Alt, FaJs, FaHtml5 } from 'react-icons/fa';
 import { SiNextdotjs, SiJquery, SiCplusplus } from 'react-icons/si';
@@ -17,9 +16,12 @@ const skills = [
 ];
 
 const Skills = () => {
+    const [leftLampOn, setLeftLampOn] = useState(false);
+    const [rightLampOn, setRightLampOn] = useState(false);
+
     return (
         <section className="skills-section">
-            <h2 className="skills-heading">Skills</h2>
+            <h2 className="skills-heading">SKILLS</h2>
             <div className="skills-row">
                 {skills.map((skill) => (
                     <div className="skill-item" key={skill.name}>
