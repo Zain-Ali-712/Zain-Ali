@@ -9,13 +9,15 @@
 }
 
 .projects-heading {
-    font-size: 10rem;
+    font-size: 8rem;
     font-weight: 900;
     color: #fff;
     text-align: center;
-    margin: 1.4rem auto 2.2rem auto;
+    opacity: 0.12;
+    margin: 1.4rem auto 3.2rem auto;
     letter-spacing: 0.04em;
     font-family: 'Arsenal', 'Montserrat', Arial, sans-serif;
+    stroke: 0 6px 32px #000a, 0 1px 2px #0006, 0 0 16px #232323;
     position: relative;
     z-index: 2;
 }
@@ -29,48 +31,35 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 7rem;
 }
 
 .project-card {
-    width: 80vw;
-    max-width: 950px;
-    min-height: 200px;
-    background: #232323;
+    width: 75vw;
+    height: 42vh;
     border-radius: 18px;
-    box-shadow: 0px 4px 32px 0 rgba(90, 90, 90, 0.411), 0 0.5px 2px 0 #0006;
+    background-color: #1b1b1b65;
     margin: 0 auto;
     opacity: 0.97;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5rem 2.2rem 1.5rem 2.2rem;
-    gap: 1.2rem;
+    padding: 1.5rem 2rem;
+    gap: 1rem;
     position: relative;
-    transition: box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
     z-index: 1;
 }
 
-.project-card:hover {
-    box-shadow:
-        0 0 0 0 #000a,
-        0 0.5px 2px 0 #0006,
-        0 0 16px 4px rgba(0, 120, 255, 0.10),
-        0 0 32px 8px rgba(0, 120, 255, 0.07),
-        0 0 64px 16px rgba(0, 120, 255, 0.05);
-}
-
 .project-card-left {
-    flex: 1.7;
+    flex: 1.2;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 0;
 }
 
 .project-image-placeholder {
-    width: 420px;
-    height: 160px;
+    width: 440px;
+    height: 220px;
     background: #181818;
     border-radius: 10px;
     box-shadow: 0 2px 16px #0007;
@@ -88,20 +77,22 @@
 }
 
 .project-card-right {
-    flex: 1.3;
+    flex: 1.2;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     gap: 0.5rem;
+    margin: 0 1rem;
     min-width: 0;
 }
 
 .project-title {
-    font-size: 2.1rem;
+    font-size: 2rem;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 0.1rem;
+    margin: 0.6rem 0;
+
     font-family: 'Arsenal', 'Montserrat', Arial, sans-serif;
 }
 
@@ -109,19 +100,20 @@
     color: #e0e0e0;
     font-size: 1.05rem;
     font-weight: 500;
-    margin-bottom: 0.2rem;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
     line-height: 1.5;
 }
 
 .project-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 0.7rem;
+    gap: 1rem;
     margin-bottom: 0.3rem;
 }
 
 .project-tag {
-    background: #f3f3f3;
+    background: #ebebeb;
     color: #232323;
     font-size: 0.95rem;
     font-weight: 600;
@@ -135,7 +127,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-top: 0.1rem;
+    margin: 0.1rem 0.2rem;
 }
 
 .project-link {

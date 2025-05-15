@@ -16,6 +16,21 @@ const projects = [
         image: 'portfolio-project.png',
         imageRight: true,
     },
+
+    {
+        title: 'Airbnb Homepage Clone',
+        description: (
+            <>
+                Portfolio for myself, built with <b>React Js</b> and <b>TypeScript</b>!<br />
+                This portfolio website, Pakistan, hosting inspiring speakers and sparking ideas worth spreading.
+            </>
+        ),
+        tags: ['JavaScript', 'JQuery', 'CSS', 'HTML'],
+        codeLink: '#',
+        demoLink: '#',
+        image: 'Airbnb.png',
+        imageRight: false,
+    },
     // Add more projects here as needed
 ];
 
