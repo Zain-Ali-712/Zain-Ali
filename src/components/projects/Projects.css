@@ -408,6 +408,7 @@
         width: 100%;
     }
 
+
     .project-image-placeholder {
         width: 72vw;
         margin-top: 1rem;
@@ -420,7 +421,7 @@
 
     .project-desc {
         font-size: 0.95rem;
-        width: 85%;
+        width: 75%;
     }
 
     .project-links {
