@@ -16,7 +16,6 @@ const projects = [
         image: 'portfolio-project.png',
         imageRight: true,
     },
-
     {
         title: 'Airbnb Homepage Clone',
         description: (
@@ -31,31 +30,107 @@ const projects = [
         image: 'Airbnb.png',
         imageRight: false,
     },
-    // Add more projects here as needed
+    {
+        title: 'Beginner Mini Projects',
+        description: (
+            <>
+                A collection of four mini practice projects created while newly learning JavaScript and JQuery.
+                Each project demonstrates different aspects like game and shows my intent to create and learn something, from basic layouts to
+                interactive components.
+            </>
+        ),
+        tags: ['HTML', 'CSS', 'JavaScript', 'JQuery'],
+        demoLink: '#',
+        isMiniProjects: true,
+        miniProjects: [
+            {
+                title: 'Rock-Paper-Scissors',
+                image: 'RPS.png',
+                demoLink: '#'
+            },
+            {
+                title: 'Currency Converter',
+                image: 'currency-converter.png',
+                demoLink: '#'
+            },
+            {
+                title: 'To-Do List',
+                image: 'To-Do-List.png',
+                demoLink: '#'
+            },
+            {
+                title: 'Tic-Tac-Toe',
+                image: 'Tic-tac.png',
+                demoLink: '#'
+            }
+        ]
+    }
 ];
 
-const ProjectCard = ({ title, description, tags, codeLink, demoLink, image, imageRight }) => (
-    <div className="project-card" style={{ flexDirection: imageRight ? 'row' : 'row-reverse' }}>
-        <div className="project-card-left">
-            <div className="project-image-placeholder">
-                <img src={image} alt={title} />
-            </div>
+const MiniProjectCard = ({ title, image, demoLink }) => (
+    <div className="mini-project-item">
+        <div className="mini-project-image">
+            <img src={image} alt={title} />
         </div>
-        <div className="project-card-right">
-            <h3 className="project-title">{title}</h3>
-            <p className="project-desc">{description}</p>
-            <div className="project-tags">
-                {tags.map((tag, idx) => (
-                    <span className="project-tag" key={idx}>{tag}</span>
-                ))}
-            </div>
-            <div className="project-links">
-                <a href={codeLink} className="project-link" target="_blank" rel="noopener noreferrer">Code <i className="fa-brands fa-github"></i></a>
-                <a href={demoLink} className="project-link" target="_blank" rel="noopener noreferrer">View Demo <i className="fa-solid fa-arrow-up-right-from-square"></i></a>
-            </div>
-        </div>
+        <h4 className="mini-project-title">{title}</h4>
+        <a href={demoLink} className="mini-project-link" target="_blank" rel="noopener noreferrer">
+            <i className="fas fa-external-link-alt"></i>
+            View Demo
+        </a>
     </div>
 );
+
+const ProjectCard = ({ title, description, tags, codeLink, demoLink, image, imageRight, isMiniProjects, miniProjects }) => {
+    if (isMiniProjects) {
+        return (
+            <div className="project-card mini-projects-card">
+                <div className="mini-projects-grid">
+                    {miniProjects.map((project, idx) => (
+                        <MiniProjectCard key={idx} {...project} />
+                    ))}
+                </div>
+                <div className="mini-projects-info">
+                    <h3 className="project-title">{title}</h3>
+                    <p className="project-desc">{description}</p>
+                    <div className="project-tags">
+                        {tags.map((tag, idx) => (
+                            <span className="project-tag" key={idx}>{tag}</span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    return (
+        <div className="project-card" style={{ flexDirection: imageRight ? 'row' : 'row-reverse' }}>
+            <div className="project-card-left">
+                <div className="project-image-placeholder">
+                    <img src={image} alt={title} />
+                </div>
+            </div>
+            <div className="project-card-right">
+                <h3 className="project-title">{title}</h3>
+                <p className="project-desc">{description}</p>
+                <div className="project-tags">
+                    {tags.map((tag, idx) => (
+                        <span className="project-tag" key={idx}>{tag}</span>
+                    ))}
+                </div>
+                <div className="project-links">
+                    <a href={codeLink} className="project-link" target="_blank" rel="noopener noreferrer">
+                        <i className="fas fa-code"></i>
+                        Code
+                    </a>
+                    <a href={demoLink} className="project-link" target="_blank" rel="noopener noreferrer">
+                        <i className="fas fa-external-link-alt"></i>
+                        View Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 const Projects = () => {
     return (
