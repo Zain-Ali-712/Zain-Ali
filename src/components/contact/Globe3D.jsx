@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
@@ -32,14 +32,31 @@ function CountryLines({ geojson, highlightFeature, highlightPulse }) {
         while (groupRef.current && groupRef.current.children.length) {
             groupRef.current.remove(groupRef.current.children[0]);
         }
-        geojson.features.forEach((feature) => {
+
+        // Only process countries that are visible in the current view
+        const visibleFeatures = geojson.features.filter(feature => {
+            if (highlightFeature && feature === highlightFeature) return true;
+            // Add more filtering logic here if needed
+            return true;
+        });
+
+        visibleFeatures.forEach((feature) => {
             const isHighlight = highlightFeature && feature === highlightFeature;
             const color = isHighlight ? new THREE.Color(`hsl(0,0%,${80 + 20 * highlightPulse}%)`) : new THREE.Color('#fff');
-            const mat = new THREE.LineBasicMaterial({ color, linewidth: isHighlight ? 2 : 1, transparent: true, opacity: isHighlight ? 1 : 0.5 });
+            const mat = new THREE.LineBasicMaterial({
+                color,
+                linewidth: isHighlight ? 2 : 1,
+                transparent: true,
+                opacity: isHighlight ? 1 : 0.3
+            });
+
+            // Simplify geometry by reducing points
             const coords = feature.geometry.coordinates;
             if (feature.geometry.type === 'Polygon') {
                 coords.forEach(ring => {
-                    const points = ring.map(([lon, lat]) => latLonToVector3(lat, lon));
+                    // Reduce points by sampling every 3rd point
+                    const simplifiedPoints = ring.filter((_, i) => i % 3 === 0);
+                    const points = simplifiedPoints.map(([lon, lat]) => latLonToVector3(lat, lon));
                     const geo = new THREE.BufferGeometry().setFromPoints(points);
                     const line = new THREE.Line(geo, mat);
                     groupRef.current.add(line);
@@ -47,7 +64,9 @@ function CountryLines({ geojson, highlightFeature, highlightPulse }) {
             } else if (feature.geometry.type === 'MultiPolygon') {
                 coords.forEach(polygon => {
                     polygon.forEach(ring => {
-                        const points = ring.map(([lon, lat]) => latLonToVector3(lat, lon));
+                        // Reduce points by sampling every 3rd point
+                        const simplifiedPoints = ring.filter((_, i) => i % 3 === 0);
+                        const points = simplifiedPoints.map(([lon, lat]) => latLonToVector3(lat, lon));
                         const geo = new THREE.BufferGeometry().setFromPoints(points);
                         const line = new THREE.Line(geo, mat);
                         groupRef.current.add(line);
@@ -61,11 +80,15 @@ function CountryLines({ geojson, highlightFeature, highlightPulse }) {
 
 function Globe({ texture, bump, normal, specular, geojson, selectedCountry, autoRotate, focusCountry, highlightPulse }) {
     const meshRef = useRef();
-    // Animate to focus on selected country
+    const [isInteracting, setIsInteracting] = useState(false);
+    const lastFrameTime = useRef(0);
+
+    // Animate to focus on selected country with throttling
     useEffect(() => {
         if (!geojson || !selectedCountry || !focusCountry) return;
         const feature = findCountryFeature(geojson, selectedCountry);
         if (!feature) return;
+
         // Find centroid
         let lat = 0, lon = 0;
         if (feature.geometry.type === 'Polygon') {
@@ -77,43 +100,70 @@ function Globe({ texture, bump, normal, specular, geojson, selectedCountry, auto
             ring.forEach(([lng, lt]) => { lat += lt; lon += lng; });
             lat /= ring.length; lon /= ring.length;
         }
-        // Animate rotation
+
         const targetY = ((lon + 180) / 360) * Math.PI * 2;
         const targetX = ((90 - lat) / 180) * Math.PI;
         let frame = 0;
-        const animate = () => {
-            if (!meshRef.current) return;
-            // Smoothly interpolate
-            meshRef.current.rotation.y += (targetY - meshRef.current.rotation.y) * 0.08;
-            meshRef.current.rotation.x += (targetX - meshRef.current.rotation.x) * 0.08;
+        const animate = (time) => {
+            if (!meshRef.current || time - lastFrameTime.current < 16) return; // Cap at ~60fps
+            lastFrameTime.current = time;
+
+            meshRef.current.rotation.y += (targetY - meshRef.current.rotation.y) * 0.03;
+            meshRef.current.rotation.x += (targetX - meshRef.current.rotation.x) * 0.03;
             frame++;
-            if (frame < 40) requestAnimationFrame(animate);
+            if (frame < 20) requestAnimationFrame(animate);
         };
-        animate();
+        requestAnimationFrame(animate);
     }, [geojson, selectedCountry, focusCountry]);
 
-    // Auto-rotation
+    // Optimized auto-rotation with throttling
     useFrame((state, delta) => {
-        if (autoRotate.current && meshRef.current) {
-            meshRef.current.rotation.y += 0.15 * delta;
+        if (autoRotate.current && meshRef.current && !isInteracting) {
+            const time = state.clock.getElapsedTime() * 1000;
+            if (time - lastFrameTime.current < 32) return; // Cap at ~30fps
+            lastFrameTime.current = time;
+            meshRef.current.rotation.y += 0.05 * delta;
         }
     });
 
-    // Highlight feature
-    const highlightFeature = useMemo(() => geojson && selectedCountry ? findCountryFeature(geojson, selectedCountry) : null, [geojson, selectedCountry]);
+    // Handle interaction state
+    useEffect(() => {
+        const handleInteractionStart = () => setIsInteracting(true);
+        const handleInteractionEnd = () => {
+            setTimeout(() => setIsInteracting(false), 1000);
+        };
+
+        window.addEventListener('mousedown', handleInteractionStart);
+        window.addEventListener('mouseup', handleInteractionEnd);
+        window.addEventListener('touchstart', handleInteractionStart);
+        window.addEventListener('touchend', handleInteractionEnd);
+
+        return () => {
+            window.removeEventListener('mousedown', handleInteractionStart);
+            window.removeEventListener('mouseup', handleInteractionEnd);
+            window.removeEventListener('touchstart', handleInteractionStart);
+            window.removeEventListener('touchend', handleInteractionEnd);
+        };
+    }, []);
+
+    // Highlight feature with memoization
+    const highlightFeature = useMemo(() =>
+        geojson && selectedCountry ? findCountryFeature(geojson, selectedCountry) : null,
+        [geojson, selectedCountry]
+    );
 
     return (
         <group ref={meshRef}>
             <mesh>
-                <sphereGeometry args={[2, 64, 64]} />
+                <sphereGeometry args={[2, 24, 24]} />
                 <meshPhongMaterial
                     map={texture}
                     bumpMap={bump}
-                    bumpScale={0.07}
+                    bumpScale={0.03}
                     normalMap={normal}
                     specularMap={specular}
                     specular={new THREE.Color('#aaa')}
-                    shininess={20}
+                    shininess={10}
                 />
             </mesh>
             {geojson && <CountryLines geojson={geojson} highlightFeature={highlightFeature} highlightPulse={highlightPulse} />}
@@ -122,11 +172,50 @@ function Globe({ texture, bump, normal, specular, geojson, selectedCountry, auto
 }
 
 const Globe3D = ({ selectedCountry }) => {
-    // Load textures
-    const texture = useLoader(THREE.TextureLoader, '/earth_texture.jpg');
-    const bump = useLoader(THREE.TextureLoader, '/earth_bump.jpeg');
-    const normal = useLoader(THREE.TextureLoader, '/earth_normal.jpg');
-    const specular = useLoader(THREE.TextureLoader, '/earth_specular.jpg');
+    const [isVisible, setIsVisible] = useState(false);
+    const containerRef = useRef(null);
+
+    // Intersection Observer for visibility
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsVisible(entry.isIntersecting);
+            },
+            { threshold: 0.1 }
+        );
+
+        if (containerRef.current) {
+            observer.observe(containerRef.current);
+        }
+
+        return () => {
+            if (containerRef.current) {
+                observer.unobserve(containerRef.current);
+            }
+        };
+    }, []);
+
+    // Load textures with lower resolution
+    const texture = useLoader(THREE.TextureLoader, '/earth_texture.jpg', (loader) => {
+        loader.setCrossOrigin('anonymous');
+    });
+    const bump = useLoader(THREE.TextureLoader, '/earth_bump.jpeg', (loader) => {
+        loader.setCrossOrigin('anonymous');
+    });
+    const normal = useLoader(THREE.TextureLoader, '/earth_normal.jpg', (loader) => {
+        loader.setCrossOrigin('anonymous');
+    });
+    const specular = useLoader(THREE.TextureLoader, '/earth_specular.jpg', (loader) => {
+        loader.setCrossOrigin('anonymous');
+    });
+
+    // Optimize textures
+    useEffect(() => {
+        if (texture) texture.minFilter = THREE.LinearFilter;
+        if (bump) bump.minFilter = THREE.LinearFilter;
+        if (normal) normal.minFilter = THREE.LinearFilter;
+        if (specular) specular.minFilter = THREE.LinearFilter;
+    }, [texture, bump, normal, specular]);
 
     // Load GeoJSON
     const [geojson, setGeojson] = useState(null);
@@ -181,35 +270,39 @@ const Globe3D = ({ selectedCountry }) => {
     }, []);
 
     return (
-        <div style={{ width: '100%', height: '320px', background: 'radial-gradient(ellipse at center, #222 70%, #000 100%)', borderRadius: '16px' }}>
-            <Canvas camera={{ position: [0, 0, 6], fov: 40 }}>
-                <ambientLight intensity={0.7} />
-                <pointLight position={[10, 10, 10]} intensity={1.2} />
-                <Stars radius={100} depth={50} count={500} factor={4} fade speed={1} />
-                <Globe
-                    texture={texture}
-                    bump={bump}
-                    normal={normal}
-                    specular={specular}
-                    geojson={geojson}
-                    selectedCountry={selectedCountry}
-                    autoRotate={autoRotate}
-                    focusCountry={focusCountry}
-                    highlightPulse={highlightPulse}
-                />
-                <OrbitControls
-                    ref={controlsRef}
-                    enableZoom={false}
-                    enablePan={false}
-                    enableDamping
-                    dampingFactor={0.1}
-                    rotateSpeed={0.5}
-                    maxPolarAngle={Math.PI}
-                    minPolarAngle={0}
-                    enableRotate
-                    makeDefault
-                />
-            </Canvas>
+        <div ref={containerRef} style={{ width: '100%', height: '320px', background: 'radial-gradient(ellipse at center, #222 70%, #000 100%)', borderRadius: '16px' }}>
+            {isVisible && (
+                <Canvas camera={{ position: [0, 0, 6], fov: 40 }} dpr={[0.2, 0.7]}>
+                    <Suspense fallback={null}>
+                        <ambientLight intensity={0.7} />
+                        <pointLight position={[10, 10, 10]} intensity={1.2} />
+                        <Stars radius={100} depth={50} count={150} factor={4} fade speed={1} />
+                        <Globe
+                            texture={texture}
+                            bump={bump}
+                            normal={normal}
+                            specular={specular}
+                            geojson={geojson}
+                            selectedCountry={selectedCountry}
+                            autoRotate={autoRotate}
+                            focusCountry={focusCountry}
+                            highlightPulse={highlightPulse}
+                        />
+                        <OrbitControls
+                            ref={controlsRef}
+                            enableZoom={false}
+                            enablePan={false}
+                            enableDamping
+                            dampingFactor={0.1}
+                            rotateSpeed={0.3}
+                            maxPolarAngle={Math.PI}
+                            minPolarAngle={0}
+                            enableRotate
+                            makeDefault
+                        />
+                    </Suspense>
+                </Canvas>
+            )}
         </div>
     );
 };

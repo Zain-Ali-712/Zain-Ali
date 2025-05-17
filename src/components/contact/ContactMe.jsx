@@ -180,7 +180,7 @@ const ContactMe = () => {
                     </form>
                 </div>
                 <div className="contact-empty-box compact">
-                    <Globe3D selectedCountry={formData.country} style={{ marginBottom: '2.5rem' }} />
+                    <Globe3D selectedCountry={formData.country} style={{ marginBottom: '0.5rem' }} />
                     <div className="right-fields">
                         <div className="form-group compact country-group">
                             <label htmlFor="country">Country</label>
