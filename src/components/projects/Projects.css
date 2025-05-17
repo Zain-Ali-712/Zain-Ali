@@ -394,6 +394,7 @@
 
     .project-card {
         height: auto;
+        flex-direction: column !important;
     }
 
     .projects-list {
@@ -421,7 +422,7 @@
 
     .project-desc {
         font-size: 0.95rem;
-        width: 75%;
+        width: auto;
     }
 
     .project-links {
@@ -472,7 +473,7 @@
 
     .project-desc {
         font-size: 0.95rem;
-        width: 85%;
+        width: auto;
     }
 
     .project-links {
@@ -481,9 +482,10 @@
 }
 
 @media (max-width: 425px) {
+
     .mini-projects-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 2rem;
     }
 
     .mini-project-image {
@@ -493,6 +495,7 @@
     .mini-projects-card {
         padding: 1.5rem 1rem;
     }
+
 
     .projects-list {
         gap: 5rem;
@@ -523,7 +526,8 @@
 
     .project-desc {
         font-size: 0.85rem;
-        width: 90%;
+        width: 95%;
+        padding: 0 0.7rem;
     }
 
     .project-tag {

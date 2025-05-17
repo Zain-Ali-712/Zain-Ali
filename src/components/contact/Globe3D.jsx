@@ -14,12 +14,19 @@ function latLonToVector3(lat, lon, radius = 2.01) {
     );
 }
 
-// Helper: Find country feature by name
+// Helper: Normalize country name for matching
+function normalizeCountryName(name) {
+    return name?.toLowerCase().replace(/[^a-z]/g, '');
+}
+
+// Helper: Find country feature by name (normalized)
 function findCountryFeature(geojson, countryName) {
     if (!geojson) return null;
+    const norm = normalizeCountryName(countryName);
     return geojson.features.find(
-        f => f.properties.ADMIN?.toLowerCase() === countryName?.toLowerCase() ||
-            f.properties.NAME?.toLowerCase() === countryName?.toLowerCase()
+        f =>
+            normalizeCountryName(f.properties.ADMIN) === norm ||
+            normalizeCountryName(f.properties.NAME) === norm
     );
 }
 
@@ -28,16 +35,18 @@ function CountryLines({ geojson, highlightFeature, highlightPulse }) {
     const groupRef = useRef();
     useEffect(() => {
         if (!geojson) return;
-        // Remove previous children
         while (groupRef.current && groupRef.current.children.length) {
             groupRef.current.remove(groupRef.current.children[0]);
         }
 
-        // Only process countries that are visible in the current view
+        // Show more countries but still limit to major ones
         const visibleFeatures = geojson.features.filter(feature => {
             if (highlightFeature && feature === highlightFeature) return true;
-            // Add more filtering logic here if needed
-            return true;
+            const majorCountries = [
+                'United States', 'China', 'Russia', 'Canada', 'Brazil', 'Australia', 'India',
+                'United Kingdom', 'France', 'Germany', 'Japan', 'South Korea', 'Mexico', 'South Africa'
+            ];
+            return majorCountries.includes(feature.properties.ADMIN) || majorCountries.includes(feature.properties.NAME);
         });
 
         visibleFeatures.forEach((feature) => {
@@ -50,11 +59,10 @@ function CountryLines({ geojson, highlightFeature, highlightPulse }) {
                 opacity: isHighlight ? 1 : 0.3
             });
 
-            // Simplify geometry by reducing points
+            // Sample every 3rd point for better detail
             const coords = feature.geometry.coordinates;
             if (feature.geometry.type === 'Polygon') {
                 coords.forEach(ring => {
-                    // Reduce points by sampling every 3rd point
                     const simplifiedPoints = ring.filter((_, i) => i % 3 === 0);
                     const points = simplifiedPoints.map(([lon, lat]) => latLonToVector3(lat, lon));
                     const geo = new THREE.BufferGeometry().setFromPoints(points);
@@ -64,7 +72,6 @@ function CountryLines({ geojson, highlightFeature, highlightPulse }) {
             } else if (feature.geometry.type === 'MultiPolygon') {
                 coords.forEach(polygon => {
                     polygon.forEach(ring => {
-                        // Reduce points by sampling every 3rd point
                         const simplifiedPoints = ring.filter((_, i) => i % 3 === 0);
                         const points = simplifiedPoints.map(([lon, lat]) => latLonToVector3(lat, lon));
                         const geo = new THREE.BufferGeometry().setFromPoints(points);
@@ -78,18 +85,38 @@ function CountryLines({ geojson, highlightFeature, highlightPulse }) {
     return <group ref={groupRef} />;
 }
 
+// Orbit ring component with random tilt
+function OrbitRing({ radius = 2.3, segments = 128, color = '#fff', opacity = 0.18, tilt = [0, 0, 0] }) {
+    const points = [];
+    for (let i = 0; i <= segments; i++) {
+        const theta = (i / segments) * Math.PI * 2;
+        points.push(new THREE.Vector3(
+            Math.cos(theta) * radius,
+            0,
+            Math.sin(theta) * radius
+        ));
+    }
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+    return (
+        <group rotation={tilt}>
+            <line geometry={geometry}>
+                <lineBasicMaterial attach="material" color={color} transparent opacity={opacity} />
+            </line>
+        </group>
+    );
+}
+
 function Globe({ texture, bump, normal, specular, geojson, selectedCountry, autoRotate, focusCountry, highlightPulse }) {
     const meshRef = useRef();
     const [isInteracting, setIsInteracting] = useState(false);
     const lastFrameTime = useRef(0);
 
-    // Animate to focus on selected country with throttling
+    // --- Sync globe rotation to selected country (bring to top) ---
     useEffect(() => {
-        if (!geojson || !selectedCountry || !focusCountry) return;
+        if (!geojson || !selectedCountry) return;
         const feature = findCountryFeature(geojson, selectedCountry);
         if (!feature) return;
 
-        // Find centroid
         let lat = 0, lon = 0;
         if (feature.geometry.type === 'Polygon') {
             const ring = feature.geometry.coordinates[0];
@@ -101,28 +128,28 @@ function Globe({ texture, bump, normal, specular, geojson, selectedCountry, auto
             lat /= ring.length; lon /= ring.length;
         }
 
+        // Calculate target rotation to bring country to top
         const targetY = ((lon + 180) / 360) * Math.PI * 2;
-        const targetX = ((90 - lat) / 180) * Math.PI;
+        const targetX = ((90 - lat) / 180) * Math.PI; // latitude to X rotation
         let frame = 0;
-        const animate = (time) => {
-            if (!meshRef.current || time - lastFrameTime.current < 16) return; // Cap at ~60fps
-            lastFrameTime.current = time;
-
-            meshRef.current.rotation.y += (targetY - meshRef.current.rotation.y) * 0.03;
-            meshRef.current.rotation.x += (targetX - meshRef.current.rotation.x) * 0.03;
+        const animate = () => {
+            if (!meshRef.current) return;
+            // Interpolate Y (longitude) and X (latitude)
+            meshRef.current.rotation.y += (targetY - meshRef.current.rotation.y) * 0.12;
+            meshRef.current.rotation.x += (targetX - meshRef.current.rotation.x) * 0.12;
             frame++;
-            if (frame < 20) requestAnimationFrame(animate);
+            if (frame < 25) requestAnimationFrame(animate);
         };
-        requestAnimationFrame(animate);
-    }, [geojson, selectedCountry, focusCountry]);
+        animate();
+    }, [geojson, selectedCountry]);
 
-    // Optimized auto-rotation with throttling
+    // Faster auto-rotation
     useFrame((state, delta) => {
         if (autoRotate.current && meshRef.current && !isInteracting) {
             const time = state.clock.getElapsedTime() * 1000;
-            if (time - lastFrameTime.current < 32) return; // Cap at ~30fps
+            if (time - lastFrameTime.current < 16) return; // Cap at ~60fps
             lastFrameTime.current = time;
-            meshRef.current.rotation.y += 0.05 * delta;
+            meshRef.current.rotation.y += 0.15 * delta;
         }
     });
 
@@ -154,16 +181,20 @@ function Globe({ texture, bump, normal, specular, geojson, selectedCountry, auto
 
     return (
         <group ref={meshRef}>
+            {/* Orbit rings for shine/orbit effect, now randomized */}
+            <OrbitRing radius={2.5} color="#fff" opacity={0.09} tilt={[0.2, 0.1, 0]} />
+            <OrbitRing radius={2.6} color="#fff" opacity={0.07} tilt={[-0.6, 0.1, 0.5]} />
+            <OrbitRing radius={2.7} color="#fff" opacity={0.1} tilt={[0.5, -0.1, 0.3]} />
             <mesh>
-                <sphereGeometry args={[2, 24, 24]} />
+                <sphereGeometry args={[2, 32, 32]} />
                 <meshPhongMaterial
                     map={texture}
                     bumpMap={bump}
-                    bumpScale={0.03}
+                    bumpScale={0.14}
                     normalMap={normal}
                     specularMap={specular}
                     specular={new THREE.Color('#aaa')}
-                    shininess={10}
+                    shininess={1}
                 />
             </mesh>
             {geojson && <CountryLines geojson={geojson} highlightFeature={highlightFeature} highlightPulse={highlightPulse} />}
@@ -270,13 +301,14 @@ const Globe3D = ({ selectedCountry }) => {
     }, []);
 
     return (
-        <div ref={containerRef} style={{ width: '100%', height: '320px', background: 'radial-gradient(ellipse at center, #222 70%, #000 100%)', borderRadius: '16px' }}>
+        <div ref={containerRef} style={{ width: '100%', height: '370px', background: 'radial-gradient(ellipse at center,rgba(255,255,255,0.18) 0%,rgba(44,44,44,0.85) 18%,rgba(17,17,17,0.61) 80%)', borderRadius: '16px' }}>
             {isVisible && (
-                <Canvas camera={{ position: [0, 0, 6], fov: 40 }} dpr={[0.2, 0.7]}>
+                <Canvas camera={{ position: [0, 1, 7], fov: 40 }} dpr={[1.5, 2]}>
                     <Suspense fallback={null}>
-                        <ambientLight intensity={0.7} />
-                        <pointLight position={[10, 10, 10]} intensity={1.2} />
-                        <Stars radius={100} depth={50} count={150} factor={4} fade speed={1} />
+                        <ambientLight intensity={0.96} />
+                        <pointLight position={[10, 10, 10]} intensity={7.3} />
+                        {/* More stars for denser background */}
+                        <Stars radius={100} depth={10} count={400} factor={4} fade speed={1} />
                         <Globe
                             texture={texture}
                             bump={bump}
@@ -294,7 +326,7 @@ const Globe3D = ({ selectedCountry }) => {
                             enablePan={false}
                             enableDamping
                             dampingFactor={0.1}
-                            rotateSpeed={0.3}
+                            rotateSpeed={0.5}
                             maxPolarAngle={Math.PI}
                             minPolarAngle={0}
                             enableRotate
