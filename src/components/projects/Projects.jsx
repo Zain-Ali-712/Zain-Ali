@@ -11,8 +11,8 @@ const projects = [
             </>
         ),
         tags: ['React Js', 'Typescript', 'Three Js', 'CSS'],
-        codeLink: '#',
-        demoLink: '#',
+        codeLink: 'https://github.com/Zain-Ali-712/Zain-Ali',
+        demoLink: 'zainaliwebdev.vercel.app',
         image: 'portfolio-project.png',
         imageRight: true,
     },
