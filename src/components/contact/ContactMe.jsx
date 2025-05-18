@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Globe3D from './Globe3D';
 import './ContactMe.css';
+import emailjs from '@emailjs/browser';
 
 const requirements = [
     'Portfolio', 'Landing Page', 'Website Design', 'Full Stack Website'
 ];
 
 const ContactMe = () => {
+    const form = useRef();
     const [formData, setFormData] = useState({
         fname: '',
         lname: '',
@@ -19,6 +21,8 @@ const ContactMe = () => {
     const [errors, setErrors] = useState({});
     const [countries, setCountries] = useState([]);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSending, setIsSending] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState({ success: false, message: '' });
 
     useEffect(() => {
         fetch('https://restcountries.com/v3.1/all')
@@ -79,22 +83,54 @@ const ContactMe = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitted(true);
+
         if (validateForm()) {
-            // Handle form submission here
-            console.log('Form submitted:', formData);
-            // Reset form after successful submission
-            setFormData({
-                fname: '',
-                lname: '',
-                email: '',
-                requirement: '',
-                country: '',
-                desc: ''
-            });
-            setIsSubmitted(false);
+            setIsSending(true);
+            setSubmitStatus({ success: false, message: '' });
+
+            try {
+                const templateParams = {
+                    from_name: `${formData.fname} ${formData.lname}`,
+                    from_email: formData.email,
+                    requirement: formData.requirement,
+                    country: formData.country,
+                    message: formData.desc,
+                    to_name: 'Zain Ali'
+                };
+
+                await emailjs.send(
+                    'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+                    'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+                    templateParams,
+                    'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+                );
+
+                setSubmitStatus({
+                    success: true,
+                    message: 'Message sent successfully! I will get back to you soon.'
+                });
+
+                // Reset form after successful submission
+                setFormData({
+                    fname: '',
+                    lname: '',
+                    email: '',
+                    requirement: '',
+                    country: '',
+                    desc: ''
+                });
+            } catch (error) {
+                setSubmitStatus({
+                    success: false,
+                    message: 'Failed to send message. Please try again later.'
+                });
+            } finally {
+                setIsSending(false);
+                setIsSubmitted(false);
+            }
         }
     };
 
@@ -103,7 +139,12 @@ const ContactMe = () => {
             <h2 className="contact-heading center-shadow">CONTACT ME</h2>
             <div className="contact-container compact">
                 <div className="contact-form-box compact">
-                    <form className="contact-form compact" onSubmit={handleSubmit}>
+                    <form ref={form} className="contact-form compact" onSubmit={handleSubmit}>
+                        {submitStatus.message && (
+                            <div className={`submit-status ${submitStatus.success ? 'success' : 'error'}`}>
+                                {submitStatus.message}
+                            </div>
+                        )}
                         <div className="form-row">
                             <div className="form-group compact half-width">
                                 <label htmlFor="fname">First Name</label>
@@ -176,7 +217,13 @@ const ContactMe = () => {
                                 rows={3}
                             />
                         </div>
-                        <button type="submit" className="submit-btn compact">Submit</button>
+                        <button
+                            type="submit"
+                            className="submit-btn compact"
+                            disabled={isSending}
+                        >
+                            {isSending ? 'Sending...' : 'Submit'}
+                        </button>
                     </form>
                 </div>
                 <div className="contact-empty-box compact">
