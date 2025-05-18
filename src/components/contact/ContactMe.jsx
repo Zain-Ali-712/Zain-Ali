@@ -102,10 +102,10 @@ const ContactMe = () => {
                 };
 
                 await emailjs.send(
-                    'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
-                    'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+                    'service_q1ykbmr',
+                    'template_h7n409j',
                     templateParams,
-                    'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+                    'YSam38V3pjQZPvV_x'
                 );
 
                 setSubmitStatus({
@@ -140,11 +140,6 @@ const ContactMe = () => {
             <div className="contact-container compact">
                 <div className="contact-form-box compact">
                     <form ref={form} className="contact-form compact" onSubmit={handleSubmit}>
-                        {submitStatus.message && (
-                            <div className={`submit-status ${submitStatus.success ? 'success' : 'error'}`}>
-                                {submitStatus.message}
-                            </div>
-                        )}
                         <div className="form-row">
                             <div className="form-group compact half-width">
                                 <label htmlFor="fname">First Name</label>
@@ -224,6 +219,11 @@ const ContactMe = () => {
                         >
                             {isSending ? 'Sending...' : 'Submit'}
                         </button>
+                        {submitStatus.message && (
+                            <div className={`submit-status ${submitStatus.success ? 'success' : 'error'}`}>
+                                {submitStatus.message}
+                            </div>
+                        )}
                     </form>
                 </div>
                 <div className="contact-empty-box compact">
