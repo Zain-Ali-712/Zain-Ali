@@ -1,0 +1,249 @@
+.footer-primary {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 3rem 2rem;
+    margin: 4rem 0 0 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: #000008ed;
+    color: #fff;
+}
+
+.footer-left {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 2rem;
+}
+
+.footer-left img {
+    width: 120px;
+    height: auto;
+    margin: 10vh 10vw;
+    filter: drop-shadow(0 0 15px rgba(192, 192, 192, 0.4));
+    transform-style: preserve-3d;
+    transform: rotateY(-5deg) rotateX(5deg);
+    transition: transform 0.8s ease-in-out;
+}
+
+.footer-right {
+    flex: 2.5;
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+}
+
+.footer-right>div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-right h4 {
+    color: #fff;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
+}
+
+.footer-right ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-right ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-right ul li a {
+    color: #b0b0b0;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.footer-right ul li a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.footer-contact p {
+    color: #b0b0b0;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+}
+
+.footer-contact p i {
+    margin-right: 0.6rem;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.footer-contact .contact-link {
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-contact .contact-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.social-icons {
+    margin-top: 1.2rem;
+    display: flex;
+    gap: 1.2rem;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.6rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #2196f3;
+}
+
+.footer-secondary {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #aaa;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: #000008ed;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .footer-primary {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 3rem;
+    }
+
+    .footer-left {
+        padding-right: 0;
+    }
+
+    .footer-left img {
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-right {
+        flex-direction: column;
+        align-items: center;
+        gap: 3rem;
+    }
+
+    .footer-right>div {
+        align-items: center;
+    }
+
+    .footer-right ul li {
+        text-align: center;
+    }
+
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .footer-primary,
+    .footer-secondary {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .footer-left img {
+        width: 100px;
+    }
+
+    .footer-right h4 {
+        font-size: 1.1rem;
+    }
+
+    .footer-right ul li a,
+    .footer-contact p {
+        font-size: 0.9rem;
+    }
+
+    .social-icons a {
+        font-size: 1.4rem;
+    }
+
+    .footer-secondary {
+        font-size: 0.8rem;
+    }
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 180px;
+    background: radial-gradient(circle,
+            rgba(21, 57, 88, 0.665) 0%,
+            rgba(45, 146, 234, 0.504) 12%,
+            transparent 100%);
+    /* Fade to transparent */
+    filter: blur(50px);
+    z-index: 1;
+    opacity: 0.5;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+@keyframes rotate3DSubtle {
+    0% {
+        transform: rotateX(0deg) rotateY(0deg);
+    }
+
+    14% {
+        transform: rotateY(90deg);
+    }
+
+    28% {
+        transform: rotateY(180deg);
+    }
+
+    42% {
+        transform: rotateY(270deg);
+    }
+
+    56% {
+        transform: rotateX(90deg) rotateY(270deg);
+    }
+
+    70% {
+        transform: rotateX(180deg) rotateY(270deg);
+    }
+
+    84% {
+        transform: rotateX(270deg) rotateY(270deg);
+    }
+
+    100% {
+        transform: rotateX(360deg) rotateY(360deg);
+    }
+}
+
+/* Apply the animation */
+.footer-left img {
+    animation: rotate3DSubtle 18s infinite linear;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 2px 12px rgba(192, 192, 192, 0.478));
+}

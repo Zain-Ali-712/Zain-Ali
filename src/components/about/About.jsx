@@ -37,19 +37,19 @@ const About = () => {
 
                     {/* Social Media Icons */}
                     <div className="social-icons">
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.linkedin.com/in/zain-webdev-68ba04365?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">
                             <FaLinkedin className="social-icon" />
                         </a>
-                        <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/Zain-Ali-712" target="_blank" rel="noopener noreferrer">
                             <FaGithub className="social-icon" />
                         </a>
-                        <a href="https://threads.net" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.threads.net/@zaindev_design" target="_blank" rel="noopener noreferrer">
                             <SiThreads className="social-icon" />
                         </a>
                         <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
                             <FaTwitter className="social-icon" />
                         </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.instagram.com/zaindev_design?igsh=ZGdzZzdnd3Uwcnkw" target="_blank" rel="noopener noreferrer">
                             <FaInstagram className="social-icon" />
                         </a>
                     </div>
