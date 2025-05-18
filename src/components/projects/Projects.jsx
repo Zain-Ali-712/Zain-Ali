@@ -10,7 +10,7 @@ const projects = [
                 This portfolio website, Pakistan, hosting inspiring speakers and sparking ideas worth spreading.
             </>
         ),
-        tags: ['React Js', 'Typescript', 'CSS'],
+        tags: ['React Js', 'Typescript', 'Three Js', 'CSS'],
         codeLink: '#',
         demoLink: '#',
         image: 'portfolio-project.png',
@@ -20,8 +20,7 @@ const projects = [
         title: 'Airbnb Homepage Clone',
         description: (
             <>
-                Portfolio for myself, built with <b>React Js</b> and <b>TypeScript</b>!<br />
-                This portfolio website, Pakistan, hosting inspiring speakers and sparking ideas worth spreading.
+                A hands-on project built to strengthen my skills in JavaScript and jQuery, focusing on real-time interactivity and dynamic UI updates. It showcases my understanding of DOM manipulation.
             </>
         ),
         tags: ['JavaScript', 'JQuery', 'CSS', 'HTML'],
