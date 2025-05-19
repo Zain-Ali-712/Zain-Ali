@@ -14,10 +14,12 @@
     font-size: 7rem;
     color: #fff;
     text-align: center;
-    opacity: 0.19;
+    opacity: 0.4;
     margin-top: -10px;
     letter-spacing: 0.04em;
     font-family: 'Arsenal', 'Montserrat', Arial, sans-serif;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 40%, rgba(255, 255, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
 }
 
 .skills-row {

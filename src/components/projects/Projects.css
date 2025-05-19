@@ -41,6 +41,8 @@
     stroke: 0 6px 32px #000a, 0 1px 2px #0006, 0 0 16px #232323;
     position: relative;
     z-index: 2;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 40%, rgba(255, 255, 255, 0.2) 70%, rgba(255, 255, 255, 0) 100%);
+    mask-image: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
 }
 
 .center-shadow {

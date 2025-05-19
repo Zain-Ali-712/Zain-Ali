@@ -12,7 +12,7 @@ const projects = [
         ),
         tags: ['React Js', 'Typescript', 'Three Js', 'CSS'],
         codeLink: 'https://github.com/Zain-Ali-712/Zain-Ali',
-        demoLink: 'zainaliwebdev.vercel.app',
+        demoLink: 'https://zaindev-nine.vercel.app/',
         image: 'portfolio-project.png',
         imageRight: true,
     },
@@ -24,8 +24,8 @@ const projects = [
             </>
         ),
         tags: ['JavaScript', 'JQuery', 'CSS', 'HTML'],
-        codeLink: '#',
-        demoLink: '#',
+        codeLink: 'https://github.com/Zain-Ali-712/Airbnb-clone',
+        demoLink: 'https://airbnb-home-clone.vercel.app/',
         image: 'Airbnb.png',
         imageRight: false,
     },
@@ -45,22 +45,22 @@ const projects = [
             {
                 title: 'Rock-Paper-Scissors',
                 image: 'RPS.png',
-                demoLink: '#'
+                demoLink: 'https://rock-papper-scisors-game.vercel.app/'
             },
             {
                 title: 'Currency Converter',
                 image: 'currency-converter.png',
-                demoLink: '#'
+                demoLink: 'https://currency-converter-practice.vercel.app/'
             },
             {
                 title: 'To-Do List',
                 image: 'To-Do-List.png',
-                demoLink: '#'
+                demoLink: 'https://todo-list-ptacticeproject.vercel.app/'
             },
             {
                 title: 'Tic-Tac-Toe',
                 image: 'Tic-tac.png',
-                demoLink: '#'
+                demoLink: 'https://tic-tac-toe-game-practice.vercel.app/'
             }
         ]
     }
