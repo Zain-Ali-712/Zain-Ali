@@ -30,7 +30,7 @@ const MeshBackground = () => {
 
         // Create nodes
         const nodes = [];
-        const nodeCount = 30;
+        const nodeCount = 40;
         const connectionDistance = 120;
         const hoverDistance = 150; // Distance to check for hover connections
 
@@ -38,8 +38,8 @@ const MeshBackground = () => {
             constructor() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.2;
-                this.vy = (Math.random() - 0.5) * 0.2;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
                 this.radius = 4;
                 this.originalRadius = this.radius;
             }
