@@ -19,10 +19,63 @@ function normalizeCountryName(name) {
     return name?.toLowerCase().replace(/[^a-z]/g, '');
 }
 
+// Mapping for country name mismatches between dropdown and geojson
+const COUNTRY_NAME_MAP = {
+    'United States of America': 'United States',
+    'South Korea': 'Korea, Republic of',
+    'North Korea': "Korea, Democratic People's Republic of",
+    'Russia': 'Russian Federation',
+    'Vietnam': 'Viet Nam',
+    'Syria': 'Syrian Arab Republic',
+    'Iran': 'Iran (Islamic Republic of)',
+    'Venezuela': 'Venezuela (Bolivarian Republic of)',
+    'Tanzania': 'Tanzania, United Republic of',
+    'Moldova': 'Moldova, Republic of',
+    'Bolivia': 'Bolivia (Plurinational State of)',
+    'Brunei': 'Brunei Darussalam',
+    'Laos': "Lao People's Democratic Republic",
+    'Palestine': 'Palestine, State of',
+    'Czechia': 'Czech Republic',
+    'Ivory Coast':
+        'Côte d\'Ivoire',
+    'Cape Verde': 'Cabo Verde',
+    'Swaziland': 'Eswatini',
+    'East Timor': 'Timor-Leste',
+    'Micronesia': 'Micronesia (Federated States of)',
+    'Saint Kitts and Nevis': 'Saint Kitts and Nevis',
+    'Saint Lucia': 'Saint Lucia',
+    'Saint Vincent and the Grenadines': 'Saint Vincent and the Grenadines',
+    'Antigua and Barbuda': 'Antigua and Barbuda',
+    'Bosnia and Herzegovina': 'Bosnia and Herzegovina',
+    'Trinidad and Tobago': 'Trinidad and Tobago',
+    'Dominican Republic': 'Dominican Republic',
+    'Central African Republic': 'Central African Republic',
+    'Congo': 'Congo',
+    'Democratic Republic of the Congo': 'Congo, The Democratic Republic of the',
+    'United Kingdom': 'United Kingdom',
+    'Myanmar': 'Myanmar',
+    'Bahamas': 'Bahamas',
+    'Gambia': 'Gambia',
+    'The Gambia': 'Gambia',
+    'Saint Vincent & Grenadines': 'Saint Vincent and the Grenadines',
+    'Sao Tome and Principe': 'Sao Tome and Principe',
+    'Solomon Islands': 'Solomon Islands',
+    'South Sudan': 'South Sudan',
+    'North Macedonia': 'North Macedonia',
+    'Slovakia': 'Slovakia',
+    'Kosovo': 'Kosovo',
+    // Add more as needed
+};
+
+function getGeoJsonCountryName(dropdownName) {
+    return COUNTRY_NAME_MAP[dropdownName] || dropdownName;
+}
+
 // Helper: Find country feature by name (normalized)
 function findCountryFeature(geojson, countryName) {
     if (!geojson) return null;
-    const norm = normalizeCountryName(countryName);
+    const mappedName = getGeoJsonCountryName(countryName);
+    const norm = normalizeCountryName(mappedName);
     return geojson.features.find(
         f =>
             normalizeCountryName(f.properties.ADMIN) === norm ||

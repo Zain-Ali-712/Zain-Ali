@@ -3,6 +3,19 @@ import './Projects.css';
 
 const projects = [
     {
+        title: 'Syncwave Chat App',
+        description: (
+            <>
+                A real-time chat app with <b>polished UI/UX</b> built in <b>React.js</b>. Features: <b>private chats</b>, <b>AI chat</b>, <b>anonymous groups</b>. All <b>frontend design & development</b> led by me.
+            </>
+        ),
+        tags: ['React Js', 'Socket.io', 'Express.js', 'UI/UX'],
+        codeLink: 'https://github.com/SMAbbasHussain/SyncWave.git',
+        demoLink: 'https://sync-wave-tan.vercel.app/',
+        image: 'syncwave.png',
+        imageRight: true,
+    },
+    {
         title: 'Zain Web Dev',
         description: (
             <>
@@ -14,7 +27,7 @@ const projects = [
         codeLink: 'https://github.com/Zain-Ali-712/Zain-Ali',
         demoLink: 'https://zaindev-nine.vercel.app/',
         image: 'portfolio-project.png',
-        imageRight: true,
+        imageRight: false,
     },
     {
         title: 'Airbnb Homepage Clone',
@@ -27,7 +40,7 @@ const projects = [
         codeLink: 'https://github.com/Zain-Ali-712/Airbnb-clone',
         demoLink: 'https://airbnb-home-clone.vercel.app/',
         image: 'Airbnb.png',
-        imageRight: false,
+        imageRight: true,
     },
     {
         title: 'Beginner Mini Projects',

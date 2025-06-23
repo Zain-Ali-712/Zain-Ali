@@ -20,16 +20,24 @@ const ContactMe = () => {
 
     const [errors, setErrors] = useState({});
     const [countries, setCountries] = useState([]);
+    const [countriesLoading, setCountriesLoading] = useState(true);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSending, setIsSending] = useState(false);
     const [submitStatus, setSubmitStatus] = useState({ success: false, message: '' });
 
     useEffect(() => {
-        fetch('https://restcountries.com/v3.1/all')
+        setCountriesLoading(true);
+        fetch('https://countriesnow.space/api/v0.1/countries/positions')
             .then(res => res.json())
             .then(data => {
-                const countryNames = data.map(c => c.name.common).sort();
+                // The API returns { data: [{name: 'Afghanistan', ...}, ...] }
+                const countryNames = data.data.map(c => c.name).sort();
                 setCountries(countryNames);
+                setCountriesLoading(false);
+            })
+            .catch(() => {
+                setCountries([]);
+                setCountriesLoading(false);
             });
     }, []);
 
@@ -243,7 +251,7 @@ const ContactMe = () => {
                                     required
                                     className={`custom-select ${isSubmitted && errors.country ? 'error' : ''}`}
                                 >
-                                    <option value="">Select Country</option>
+                                    <option value="">{countriesLoading ? 'Loading countries...' : 'Select Country'}</option>
                                     {countries.map((country, idx) => (
                                         <option key={idx} value={country}>{country}</option>
                                     ))}

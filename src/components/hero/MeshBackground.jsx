@@ -30,7 +30,10 @@ const MeshBackground = () => {
 
         // Create nodes
         const nodes = [];
-        const nodeCount = 40;
+        // Responsive node count and size
+        const isSmallScreen = window.innerWidth <= 900;
+        const nodeCount = isSmallScreen ? 18 : 40; // Fewer nodes on small screens
+        const nodeRadius = isSmallScreen ? 2.5 : 4; // Smaller nodes on small screens
         const connectionDistance = 120;
         const hoverDistance = 150; // Distance to check for hover connections
 
@@ -40,7 +43,7 @@ const MeshBackground = () => {
                 this.y = Math.random() * canvas.height;
                 this.vx = (Math.random() - 0.5) * 0.5;
                 this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = 4;
+                this.radius = nodeRadius;
                 this.originalRadius = this.radius;
             }
 
