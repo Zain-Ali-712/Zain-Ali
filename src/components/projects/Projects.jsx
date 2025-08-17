@@ -3,6 +3,19 @@ import './Projects.css';
 
 const projects = [
     {
+        title: 'DevKeters | Agency',
+        description: (
+            <>
+                A <b>developer portfolio</b> built for a <b>development agency</b> using <b>React.js</b> and <b>TypeScript</b>. It features <b>modern UI/UX</b>, smooth animations, project filtering, video showcases, and a fully responsive design.
+            </>
+        ),
+        tags: ['React Js', 'Tailwind', 'Typescript', 'ThreeJs'],
+        codeLink: 'https://github.com/M-Zayn-Abbas/devketers-global-canvas',
+        demoLink: 'https://devketers.com/',
+        image: 'devketers.png',
+        imageRight: true,
+    },
+    {
         title: 'Syncwave Chat App',
         description: (
             <>
@@ -13,7 +26,7 @@ const projects = [
         codeLink: 'https://github.com/SMAbbasHussain/SyncWave.git',
         demoLink: 'https://sync-wave-tan.vercel.app/',
         image: 'syncwave.png',
-        imageRight: true,
+        imageRight: false,
     },
     {
         title: 'Zain Web Dev',
@@ -27,7 +40,7 @@ const projects = [
         codeLink: 'https://github.com/Zain-Ali-712/Zain-Ali',
         demoLink: 'https://zaindev-nine.vercel.app/',
         image: 'portfolio-project.png',
-        imageRight: false,
+        imageRight: true,
     },
     {
         title: 'Airbnb Homepage Clone',
@@ -40,7 +53,7 @@ const projects = [
         codeLink: 'https://github.com/Zain-Ali-712/Airbnb-clone',
         demoLink: 'https://airbnb-home-clone.vercel.app/',
         image: 'Airbnb.png',
-        imageRight: true,
+        imageRight: false,
     },
     {
         title: 'Beginner Mini Projects',
